@@ -1,33 +1,39 @@
-<%- include('includes/head')%>
-<%- include('includes/nav')%>
-    <div class="cointainer">
-      <div class="row">
-        <div class="col-lg-3">
+<%- include('includes/head') %>
+<%- include('includes/nav') %>
 
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
 
-        <div class="col-lg-6 my-3">
-          <h1 class=" text-center">Agenda</h1>
-          <p class="text-center lead">Seus contatos estão abaixo.</p>
-          
-          <div class="responsive-table">
-            <table class="table my-3">
-              <tr>
-                <td>Lorenzo</td>
-                <td>Lopes</td>
-                <td>(15) 99999-9999</td>
-                <td>Lorenzolopes.dev@gmail.com</td>
-              </tr>
-            </table>
-          </div>
-          
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Agenda</h1>
+      <p class="text-center lead">Seus contatos estão abaixo</p>
 
-        </div>
+      <%- include('includes/messages') %>
 
-        <div class="col-lg-3">
-
-        </div>
+      <% if(contatos.length > 0) { %>
+      <div class="responsive-table">
+        <table class="table my-3">
+          <% contatos.forEach(contato => { %>
+          <tr>
+            <td><%= contato.nome %></td>
+            <td><%= contato.sobrenome %></td>
+            <td><%= contato.telefone %></td>
+            <td><%= contato.email %></td>
+            <td><a href="/contato/index/<%= contato._id %>">Editar</a></td>
+            <td><a class="text-danger" href="/contato/delete/<%= contato._id %>">Excluir</a></td>
+          </tr>
+          <% }); %>
+        </table>
       </div>
-    </div>
+      <% } else { %>
+        <p class="text-center lead">Não existem contatos na sua agenda.</p>
+      <% } %>
 
-<%- include('includes/footer')%>
+    </div>
+    
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>
