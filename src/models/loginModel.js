@@ -17,23 +17,28 @@ class Login {
     this.user =null
 
   }
-  register(){
+  async register(){
     this.valida();
     if (this.errors.length>0) return
+    try{
+      this.user = await LoginModel.create(this.body)
+    }catch(e){
+      console.log(e)
+    }
   }
   valida(){
     this.cleanUP
-    if(! validator.isEmail(this.body.email))this.errors.push('Email invaido')
+    if(! validator.isEmail(this.body.email))this.erro.push('Email invaido')
 
     if (this.body.password.length<3 ||this.body.password.length >50 ){
-      this.errors.push('tamanho da senha invalido')
+      this.erro.push('tamanho da senha invalido')
     }
 
 
   }
   cleanUP(){
     for (const key in this.body){
-      if(typeof this,body[key]!== 'string'){
+      if(typeof this.body[key]!== 'string'){
         this.body[key]=''
       }
     }
