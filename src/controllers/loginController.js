@@ -5,19 +5,26 @@ exports.index = (req, res)=>{
 }
 
 exports.register = async function(req,res){
-    const login =new Login(req.body)
-    await login.register()
+    try{
 
-    if( login.errors.length>0){
-        
-        req.flash('erros', login.erro)
+        const login =new Login(req.body)
+        await login.register()
+        res.send(login.errors)
+    
+        if( login.errors.length>0){
+            req.flash('erros', login.errors)
+            req.session.save(function(){
+            // return res.redirect('back')
+            })
+            return
+        }   
+        req.flash('success', 'deu certo caraio')
         req.session.save(function(){
-            res.redirect('back')
-        })
-        return
+        //    return res.redirect('back')
+        });
+        
+        return res.send(login.errors)
+    }catch(e){
+      return res.render('404')
     }
-    res.send(req.body)
-    res.send(login.erro)
-    res.send(login.user)
-
 }
